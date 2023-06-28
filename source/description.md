@@ -1,4 +1,7 @@
-# ImpactDB Experimental Data Upload Demo
+# Description of This Project
+
+
+## ImpactDB Experimental Data Upload Demo
 This repository contains code that demonstrates how experimental data can be uploaded to ImpactDB's firestore.
 
 The user needs to send a POST request to https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData.

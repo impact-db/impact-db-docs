@@ -11,7 +11,7 @@ Welcome to impactdb-api's documentation!
    :caption: Contents:
 
    Home <self>
-   description
+   description.md
    demo
 
 Indices and tables

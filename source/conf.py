@@ -13,7 +13,7 @@ author = 'Garrett Roell, Haodong Ding'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['nbsphinx', 'myst_nb']
+extensions = ['nbsphinx', 'myst_nb', 'myst_parser']
 source_suffix = ['.rst', '.ipynb', '.html']
 
 templates_path = ['_templates']

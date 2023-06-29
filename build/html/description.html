@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Description &mdash; impactdb-api  documentation</title>
+  <title>Description of This Project &mdash; impactdb-api  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
@@ -47,9 +47,15 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">home</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Description of This Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#a-brief-example-of-the-code">A brief example of the code:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notes-on-the-experimental-data-object">Notes on the experimental_data object:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#to-run-this-project-locally">To run this project locally:</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">ImpactDB Experimental Data Upload Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readdemo.html">ImpactDB Data Read Demo</a></li>
 </ul>
 
         </div>
@@ -66,9 +72,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Description</li>
+      <li class="breadcrumb-item active">Description of This Project</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/description.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/description.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -76,40 +82,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="description">
-<h1>Description<a class="headerlink" href="#description" title="Permalink to this heading"></a></h1>
-<p>ImpactDB Experimental Data Upload Demo</p>
+  <section id="description-of-this-project">
+<h1>Description of This Project<a class="headerlink" href="#description-of-this-project" title="Permalink to this heading"></a></h1>
 <p>This repository contains code that demonstrates how experimental data can be uploaded to ImpactDB's firestore.</p>
-<p>The user needs to send a POST request to <a class="reference external" href="https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData">https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData</a>.</p>
+<p>The user needs to send a POST request to https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData.</p>
 <p>The request body needs to have three keys:
 species: Examples include 'yarrowia', 'rhodosporidium', 'saccharomyces', 'lipomyces', 'pichia', or 'clostridium'
 slug: The last part of the ImpactDB url for the paper to update. For example: 'hydrogen-production-by-immobilized-cells-of-clostridium-intestinale-strain-urnw-using-alginate-beads'
 experimentalData: A string representation of JSON experimental data. The format of this string must be based on test_experimental_data.json.</p>
-<p>A brief example of the code:</p>
-<p>url = '<a class="reference external" href="https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData">https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData</a>'</p>
-<dl class="simple">
-<dt>data = {</dt><dd><p>'species': 'clostridium',
-'slug': 'hydrogen-production-by-immobilized-cells-of-clostridium-intestinale-strain-urnw-using-alginate-beads',
-'experimentalData': experimental_data,</p>
-</dd>
-</dl>
-<p>}</p>
-<dl class="simple">
-<dt>headers = {</dt><dd><p>&quot;Content-Type&quot;: &quot;application/json&quot;</p>
-</dd>
-</dl>
-<p>}</p>
-<p>response = requests.post(url, data=json.dumps(data), headers=headers)</p>
-<p>Notes on the experimental_data object:</p>
+<p>In addition to that, this  repository also conbtains code that demonstrates how users can access to data that is already in the database. The full demo can be found in ImpactDB Read Demo page.</p>
+<section id="a-brief-example-of-the-code">
+<h2>A brief example of the code:<a class="headerlink" href="#a-brief-example-of-the-code" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData&#39;</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;species&#39;</span><span class="p">:</span> <span class="s1">&#39;clostridium&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;slug&#39;</span><span class="p">:</span> <span class="s1">&#39;hydrogen-production-by-immobilized-cells-of-clostridium-intestinale-strain-urnw-using-alginate-beads&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;experimentalData&#39;</span><span class="p">:</span> <span class="n">experimental_data</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="notes-on-the-experimental-data-object">
+<h2>Notes on the experimental_data object:<a class="headerlink" href="#notes-on-the-experimental-data-object" title="Permalink to this heading"></a></h2>
 <p>The type of experimental_data is required to be a python list of dictionaries. Each dictionary must contain the following keys:</p>
-<p>species strain  engineeredStrain        parentStrain    product titer   averageRate     maximumRate     yield   volume  vessel  substrate1      substrateConc1  substrate2      substrateConc2  media   time    oxygenLevel     nitrogenLevel   pH      temperature     geneIds geneNames       knockedOutGenes overexpressedGenes      heterologousGenes       promoters       integrationSites        originSpecies   optimizedCodons directedEvolution       sourceEmail     geneticNotes    bioprocessNotes</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">species</span>	<span class="n">strain</span>	<span class="n">engineeredStrain</span>	<span class="n">parentStrain</span>	<span class="n">product</span>	<span class="n">titer</span>	<span class="n">averageRate</span>	<span class="n">maximumRate</span>	<span class="k">yield</span>	<span class="n">volume</span>	<span class="n">vessel</span>	<span class="n">substrate1</span>	<span class="n">substrateConc1</span>	<span class="n">substrate2</span>	<span class="n">substrateConc2</span>	<span class="n">media</span>	<span class="n">time</span>	<span class="n">oxygenLevel</span>	<span class="n">nitrogenLevel</span>	<span class="n">pH</span>	<span class="n">temperature</span>	<span class="n">geneIds</span>	<span class="n">geneNames</span>	<span class="n">knockedOutGenes</span>	<span class="n">overexpressedGenes</span>	<span class="n">heterologousGenes</span>	<span class="n">promoters</span>	<span class="n">integrationSites</span>	<span class="n">originSpecies</span>	<span class="n">optimizedCodons</span>	<span class="n">directedEvolution</span>	<span class="n">sourceEmail</span>	<span class="n">geneticNotes</span>	<span class="n">bioprocessNotes</span>
+</pre></div>
+</div>
 <p>Each experimental result is required to have a non-blank value for the following fields:</p>
-<p>parentStrain    product titer vessel    substrate1      substrateConc1 time     oxygenLevel     nitrogenLevel</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">parentStrain</span>	<span class="n">product</span>	<span class="n">titer</span> <span class="n">vessel</span>	<span class="n">substrate1</span>	<span class="n">substrateConc1</span> <span class="n">time</span>	<span class="n">oxygenLevel</span>	<span class="n">nitrogenLevel</span>
+</pre></div>
+</div>
 <p>experimental_data can be defined in an excel file, a json file, or manually in python code. See the demo notebook for examples of all three methods.</p>
-<p>To run this project locally:</p>
-<p>python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt</p>
+</section>
+<section id="to-run-this-project-locally">
+<h2>To run this project locally:<a class="headerlink" href="#to-run-this-project-locally" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="n">venv</span>
+<span class="n">source</span> <span class="n">venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 

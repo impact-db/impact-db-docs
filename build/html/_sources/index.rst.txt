@@ -9,10 +9,11 @@ Welcome to impactdb-api's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-   Home <self>
-   description
+   
+   home <self>
+   description.md
    demo
+   readdemo
 
 Indices and tables
 ==================

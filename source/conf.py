@@ -19,6 +19,8 @@ source_suffix = ['.rst', '.ipynb', '.html', '.md']
 templates_path = ['_templates']
 exclude_patterns = ['_build', '**.ipynb_checkpoints']
 
+autodoc_mock_imports = ['matplotlib']
+
 language = 'English'
 
 # -- Options for HTML output -------------------------------------------------

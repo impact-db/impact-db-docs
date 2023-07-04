@@ -510,7 +510,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "column_name = 'experimentalData' # Replace 'your_column_name' with the name of the column you want to retrieve\n",
+    "column_name = 'experimentalData' # Replace 'experimentalData' with the name of the column you want to retrieve\n",
     "experimentalData_rawData = df[[column_name]].head(20)"
    ]
   },

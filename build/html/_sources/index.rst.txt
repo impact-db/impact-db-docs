@@ -10,7 +10,7 @@ Welcome to impactdb-api's documentation!
    :maxdepth: 2
    :caption: Contents:
    
-   home <self>
+   Home <self>
    description.md
    notebooks/upload_demonstration
    notebooks/readdemo

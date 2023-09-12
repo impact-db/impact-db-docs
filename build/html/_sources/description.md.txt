@@ -1,6 +1,5 @@
-# Description of This Project
-
-This repository contains code that demonstrates how experimental data can be uploaded to ImpactDB's firestore. 
+# Description of this project
+This repository contains code that demonstrates how experimental data can be uploaded to ImpactDB's firestore.
 
 The user needs to send a POST request to https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData.
 
@@ -8,8 +7,6 @@ The request body needs to have three keys:
 species: Examples include 'yarrowia', 'rhodosporidium', 'saccharomyces', 'lipomyces', 'pichia', or 'clostridium'
 slug: The last part of the ImpactDB url for the paper to update. For example: 'hydrogen-production-by-immobilized-cells-of-clostridium-intestinale-strain-urnw-using-alginate-beads'
 experimentalData: A string representation of JSON experimental data. The format of this string must be based on test_experimental_data.json.
-
-In addition to that, this  repository also conbtains code that demonstrates how users can access to data that is already in the database. The full demo can be found in ImpactDB Read Demo page.
 
 ### A brief example of the code:
 ```
@@ -21,8 +18,12 @@ data = {
     'experimentalData': experimental_data,
 }
 
+# replace YOUR_JWT_TOKEN with the token you get from your user info page: https://impact-database.com/userinfo
+your_jwt_token = "YOUR_JWT_TOKEN"
+
 headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {your_jwt_token}",
 }
 
 response = requests.post(url, data=json.dumps(data), headers=headers)

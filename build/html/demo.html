@@ -597,8 +597,12 @@
     <span class="c1"># &#39;experimentalData&#39;: experimental_data, # data from json file</span>
 <span class="p">}</span>
 
+<span class="c1"># Replace &quot;YOUR_JWT_TOKEN&quot; with the token you get from user info page from the impact-db client</span>
+<span class="n">your_jwt_token</span> <span class="o">=</span> <span class="s2">&quot;YOUR_JWT_TOKEN&quot;</span>
+
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span>
+    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">your_jwt_token</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
@@ -608,7 +612,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&quot;message&quot;:&quot;Bad request. Papers with existing experimental data cannot be updated for now.&quot;}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error: Invalid JWT. Please include a valid JWT from https://impact-database.com/userinfo.
 </pre></div>
 </div>
 </div>

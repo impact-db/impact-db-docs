@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Description of This Project &mdash; impactdb-api  documentation</title>
+  <title>Description of this project &mdash; impactdb-api  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
@@ -22,7 +22,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ImpactDB Experimental Data Upload Demo" href="demo.html" />
+    <link rel="next" title="ImpactDB Experimental Data Upload Demo" href="notebooks/upload_demonstration.html" />
     <link rel="prev" title="Welcome to impactdb-api&#39;s documentation!" href="index.html" /> 
 </head>
 
@@ -48,14 +48,14 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">home</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Description of This Project</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Description of this project</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#a-brief-example-of-the-code">A brief example of the code:</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#notes-on-the-experimental-data-object">Notes on the experimental_data object:</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#to-run-this-project-locally">To run this project locally:</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="demo.html">ImpactDB Experimental Data Upload Demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="readdemo.html">ImpactDB Data Read Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/upload_demonstration.html">ImpactDB Experimental Data Upload Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/readdemo.html">ImpactDB Data Read Demo</a></li>
 </ul>
 
         </div>
@@ -72,7 +72,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Description of This Project</li>
+      <li class="breadcrumb-item active">Description of this project</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/description.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -83,14 +83,13 @@
            <div itemprop="articleBody">
              
   <section id="description-of-this-project">
-<h1>Description of This Project<a class="headerlink" href="#description-of-this-project" title="Permalink to this heading"></a></h1>
+<h1>Description of this project<a class="headerlink" href="#description-of-this-project" title="Permalink to this heading"></a></h1>
 <p>This repository contains code that demonstrates how experimental data can be uploaded to ImpactDB's firestore.</p>
 <p>The user needs to send a POST request to https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData.</p>
 <p>The request body needs to have three keys:
 species: Examples include 'yarrowia', 'rhodosporidium', 'saccharomyces', 'lipomyces', 'pichia', or 'clostridium'
 slug: The last part of the ImpactDB url for the paper to update. For example: 'hydrogen-production-by-immobilized-cells-of-clostridium-intestinale-strain-urnw-using-alginate-beads'
 experimentalData: A string representation of JSON experimental data. The format of this string must be based on test_experimental_data.json.</p>
-<p>In addition to that, this  repository also conbtains code that demonstrates how users can access to data that is already in the database. The full demo can be found in ImpactDB Read Demo page.</p>
 <section id="a-brief-example-of-the-code">
 <h2>A brief example of the code:<a class="headerlink" href="#a-brief-example-of-the-code" title="Permalink to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData&#39;</span>
@@ -101,8 +100,12 @@ experimentalData: A string representation of JSON experimental data. The format 
     <span class="s1">&#39;experimentalData&#39;</span><span class="p">:</span> <span class="n">experimental_data</span><span class="p">,</span>
 <span class="p">}</span>
 
+<span class="c1"># replace YOUR_JWT_TOKEN with the token you get from your user info page: https://impact-database.com/userinfo</span>
+<span class="n">your_jwt_token</span> <span class="o">=</span> <span class="s2">&quot;YOUR_JWT_TOKEN&quot;</span>
+
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span>
+    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">your_jwt_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
@@ -136,7 +139,7 @@ experimentalData: A string representation of JSON experimental data. The format 
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to impactdb-api&#39;s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="demo.html" class="btn btn-neutral float-right" title="ImpactDB Experimental Data Upload Demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="notebooks/upload_demonstration.html" class="btn btn-neutral float-right" title="ImpactDB Experimental Data Upload Demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

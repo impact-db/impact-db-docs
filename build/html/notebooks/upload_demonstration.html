@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="English" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ImpactDB Experimental Data Upload Demo &mdash; impactdb-api  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ImpactDB Data Read Demo" href="readdemo.html" />
+    <link rel="prev" title="ImpactDB Experimental Data Upload Demo" href="../description.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            impactdb-api
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../description.html">ImpactDB Experimental Data Upload Demo</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ImpactDB Experimental Data Upload Demo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#load-imports">Load Imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upload-experimental-data-from-a-json-file">1. Upload experimental data from a json file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upload-the-json-data-through-the-api">Upload the JSON data through the API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upload-experimental-data-from-an-excel-file">2. Upload experimental data from an excel file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upload-the-excel-data-through-the-api">Upload the excel data through the API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upload-manually-defined-data">3. Upload manually defined data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upload-the-manually-written-data-through-the-api">Upload the manually written data through the API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readdemo.html">ImpactDB Data Read Demo</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">impactdb-api</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ImpactDB Experimental Data Upload Demo</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/upload_demonstration.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="impactdb-experimental-data-upload-demo">
+<h1>ImpactDB Experimental Data Upload Demo<a class="headerlink" href="#impactdb-experimental-data-upload-demo" title="Permalink to this heading"></a></h1>
+<p>This notebook demostrates how fermentation results can be added to <a class="reference external" href="https://impact-database.com">ImpactDB</a> using an API</p>
+<p>The notebook covers how to upload data in the following formats:</p>
+<ol>
+  <li>JSON file</li>
+  <li>Excel file</li>
+  <li>Plain text</li>
+</ol>
+<p>Users are required to authenticate themselves before they can upload data to the database via a token. Users can access their tokens by signing into ImpactDB and navigating to their user information page: <a class="reference external" href="https://impact-database.com">ImpactDB User Info Page</a></p>
+<p>Note: testing of the api can be done using this url: http://localhost:5001/impact-db/us-central1/uploadExperimentalData</p>
+<section id="load-imports">
+<h2>Load Imports<a class="headerlink" href="#load-imports" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="upload-experimental-data-from-a-json-file">
+<h2>1. Upload experimental data from a json file<a class="headerlink" href="#upload-experimental-data-from-a-json-file" title="Permalink to this heading"></a></h2>
+<p>This example data is from a paper in ImpactDB <a class="reference external" href="https://impact-database.com/paper/rhodosporidium/production-of-galactitol-from-galactose-by-the-oleaginous-yeast-rhodosporidium-toruloides-ifo0880">(Jagtap 2019)</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the json data from a file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../data/jagtap_2019.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">experimental_data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="n">experimental_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">experimental_data</span><span class="p">)</span>
+
+<span class="c1"># display the data inside the json file</span>
+<span class="n">experimental_data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;geneticNotes&#39;: &#39;&#39;,
+  &#39;heterologousGenes&#39;: &#39;&#39;,
+  &#39;integrationSites&#39;: &#39;&#39;,
+  &#39;nitrogenLevel&#39;: &#39;sufficient&#39;,
+  &#39;media&#39;: &#39;YPD&#39;,
+  &#39;substrateConc1&#39;: &#39;20&#39;,
+  &#39;substrateConc2&#39;: &#39;&#39;,
+  &#39;vessel&#39;: &#39;shake flask&#39;,
+  &#39;yield&#39;: &#39;0.16&#39;,
+  &#39;titer&#39;: &#39;3.2&#39;,
+  &#39;pH&#39;: &#39;&#39;,
+  &#39;maximumRate&#39;: &#39;0.0267&#39;,
+  &#39;temperature&#39;: &#39;30&#39;,
+  &#39;substrate1&#39;: &#39;galactose&#39;,
+  &#39;substrate2&#39;: &#39;&#39;,
+  &#39;geneIds&#39;: &#39;&#39;,
+  &#39;promoters&#39;: &#39;&#39;,
+  &#39;parentStrain&#39;: &#39;IFO0880&#39;,
+  &#39;strain&#39;: &#39;&#39;,
+  &#39;averageRate&#39;: &#39;0.0267&#39;,
+  &#39;product&#39;: &#39;galactitol&#39;,
+  &#39;optimizedCodons&#39;: &#39;&#39;,
+  &#39;geneNames&#39;: &#39;&#39;,
+  &#39;directedEvolution&#39;: False,
+  &#39;originSpecies&#39;: &#39;&#39;,
+  &#39;volume&#39;: &#39;0.050&#39;,
+  &#39;engineeredStrain&#39;: &#39;&#39;,
+  &#39;knockedOutGenes&#39;: &#39;&#39;,
+  &#39;oxygenLevel&#39;: &#39;sufficient&#39;,
+  &#39;species&#39;: &#39;Rhodosporidium&#39;,
+  &#39;overexpressedGenes&#39;: &#39;&#39;,
+  &#39;time&#39;: &#39;120&#39;,
+  &#39;bioprocessNotes&#39;: &#39;&#39;},
+ {&#39;geneticNotes&#39;: &#39;&#39;,
+  &#39;heterologousGenes&#39;: &#39;&#39;,
+  &#39;integrationSites&#39;: &#39;&#39;,
+  &#39;nitrogenLevel&#39;: &#39;sufficient&#39;,
+  &#39;substrateConc1&#39;: &#39;40&#39;,
+  &#39;media&#39;: &#39;YPD&#39;,
+  &#39;substrateConc2&#39;: &#39;&#39;,
+  &#39;vessel&#39;: &#39;shake flask&#39;,
+  &#39;yield&#39;: &#39;0.21&#39;,
+  &#39;maximumRate&#39;: &#39;0.07&#39;,
+  &#39;pH&#39;: &#39;&#39;,
+  &#39;temperature&#39;: &#39;30&#39;,
+  &#39;titer&#39;: &#39;8.4&#39;,
+  &#39;substrate1&#39;: &#39;galactose&#39;,
+  &#39;substrate2&#39;: &#39;&#39;,
+  &#39;geneIds&#39;: &#39;&#39;,
+  &#39;promoters&#39;: &#39;&#39;,
+  &#39;parentStrain&#39;: &#39;IFO0880&#39;,
+  &#39;strain&#39;: &#39;&#39;,
+  &#39;averageRate&#39;: &#39;0.07&#39;,
+  &#39;product&#39;: &#39;galactitol&#39;,
+  &#39;optimizedCodons&#39;: &#39;&#39;,
+  &#39;geneNames&#39;: &#39;&#39;,
+  &#39;directedEvolution&#39;: False,
+  &#39;originSpecies&#39;: &#39;&#39;,
+  &#39;volume&#39;: &#39;0.050&#39;,
+  &#39;engineeredStrain&#39;: &#39;&#39;,
+  &#39;knockedOutGenes&#39;: &#39;&#39;,
+  &#39;species&#39;: &#39;Rhodosporidium&#39;,
+  &#39;oxygenLevel&#39;: &#39;sufficient&#39;,
+  &#39;overexpressedGenes&#39;: &#39;&#39;,
+  &#39;time&#39;: &#39;120&#39;,
+  &#39;bioprocessNotes&#39;: &#39;&#39;},
+ {&#39;geneticNotes&#39;: &#39;&#39;,
+  &#39;heterologousGenes&#39;: &#39;&#39;,
+  &#39;integrationSites&#39;: &#39;&#39;,
+  &#39;nitrogenLevel&#39;: &#39;sufficient&#39;,
+  &#39;media&#39;: &#39;YPD&#39;,
+  &#39;substrateConc1&#39;: &#39;60&#39;,
+  &#39;substrateConc2&#39;: &#39;&#39;,
+  &#39;yield&#39;: &#39;0.1367&#39;,
+  &#39;vessel&#39;: &#39;shake flask&#39;,
+  &#39;titer&#39;: &#39;8.2&#39;,
+  &#39;maximumRate&#39;: &#39;0.0854&#39;,
+  &#39;temperature&#39;: &#39;30&#39;,
+  &#39;pH&#39;: &#39;&#39;,
+  &#39;substrate1&#39;: &#39;galactose&#39;,
+  &#39;substrate2&#39;: &#39;&#39;,
+  &#39;geneIds&#39;: &#39;&#39;,
+  &#39;promoters&#39;: &#39;&#39;,
+  &#39;parentStrain&#39;: &#39;IFO0880&#39;,
+  &#39;averageRate&#39;: &#39;0.0854&#39;,
+  &#39;strain&#39;: &#39;&#39;,
+  &#39;product&#39;: &#39;galactitol&#39;,
+  &#39;optimizedCodons&#39;: &#39;&#39;,
+  &#39;geneNames&#39;: &#39;&#39;,
+  &#39;originSpecies&#39;: &#39;&#39;,
+  &#39;directedEvolution&#39;: False,
+  &#39;volume&#39;: &#39;0.050&#39;,
+  &#39;knockedOutGenes&#39;: &#39;&#39;,
+  &#39;engineeredStrain&#39;: &#39;&#39;,
+  &#39;species&#39;: &#39;Rhodosporidium&#39;,
+  &#39;oxygenLevel&#39;: &#39;sufficient&#39;,
+  &#39;overexpressedGenes&#39;: &#39;&#39;,
+  &#39;time&#39;: &#39;96&#39;,
+  &#39;bioprocessNotes&#39;: &#39;&#39;},
+ {&#39;geneticNotes&#39;: &#39;&#39;,
+  &#39;heterologousGenes&#39;: &#39;&#39;,
+  &#39;integrationSites&#39;: &#39;&#39;,
+  &#39;nitrogenLevel&#39;: &#39;limited&#39;,
+  &#39;media&#39;: &#39;.75g/L yeast extract, 1.7 g/L YNB, 0.1g/L ammonium sulfate&#39;,
+  &#39;substrateConc1&#39;: &#39;20&#39;,
+  &#39;substrateConc2&#39;: &#39;&#39;,
+  &#39;yield&#39;: &#39;0.15&#39;,
+  &#39;vessel&#39;: &#39;shake flask&#39;,
+  &#39;pH&#39;: &#39;5.6&#39;,
+  &#39;maximumRate&#39;: &#39;0.0208&#39;,
+  &#39;temperature&#39;: &#39;30&#39;,
+  &#39;titer&#39;: &#39;3.0&#39;,
+  &#39;substrate1&#39;: &#39;galactose&#39;,
+  &#39;substrate2&#39;: &#39;&#39;,
+  &#39;geneIds&#39;: &#39;&#39;,
+  &#39;promoters&#39;: &#39;&#39;,
+  &#39;parentStrain&#39;: &#39;IFO0880&#39;,
+  &#39;averageRate&#39;: &#39;0.0208&#39;,
+  &#39;strain&#39;: &#39;&#39;,
+  &#39;product&#39;: &#39;galactitol&#39;,
+  &#39;optimizedCodons&#39;: &#39;&#39;,
+  &#39;geneNames&#39;: &#39;&#39;,
+  &#39;directedEvolution&#39;: False,
+  &#39;originSpecies&#39;: &#39;&#39;,
+  &#39;volume&#39;: &#39;0.050&#39;,
+  &#39;engineeredStrain&#39;: &#39;&#39;,
+  &#39;knockedOutGenes&#39;: &#39;&#39;,
+  &#39;species&#39;: &#39;Rhodosporidium&#39;,
+  &#39;oxygenLevel&#39;: &#39;sufficient&#39;,
+  &#39;overexpressedGenes&#39;: &#39;&#39;,
+  &#39;time&#39;: &#39;144&#39;,
+  &#39;bioprocessNotes&#39;: &#39;&#39;},
+ {&#39;geneticNotes&#39;: &#39;&#39;,
+  &#39;heterologousGenes&#39;: &#39;&#39;,
+  &#39;integrationSites&#39;: &#39;&#39;,
+  &#39;nitrogenLevel&#39;: &#39;limited&#39;,
+  &#39;media&#39;: &#39;.75g/L yeast extract, 1.7 g/L YNB, 0.1g/L ammonium sulfate&#39;,
+  &#39;substrateConc1&#39;: &#39;40&#39;,
+  &#39;substrateConc2&#39;: &#39;&#39;,
+  &#39;yield&#39;: &#39;0.13&#39;,
+  &#39;vessel&#39;: &#39;shake flask&#39;,
+  &#39;temperature&#39;: &#39;30&#39;,
+  &#39;titer&#39;: &#39;5.2&#39;,
+  &#39;maximumRate&#39;: &#39;0.0361&#39;,
+  &#39;pH&#39;: &#39;5.6&#39;,
+  &#39;substrate1&#39;: &#39;galactose&#39;,
+  &#39;geneIds&#39;: &#39;&#39;,
+  &#39;substrate2&#39;: &#39;&#39;,
+  &#39;promoters&#39;: &#39;&#39;,
+  &#39;parentStrain&#39;: &#39;IFO0880&#39;,
+  &#39;strain&#39;: &#39;&#39;,
+  &#39;averageRate&#39;: &#39;0.0361&#39;,
+  &#39;product&#39;: &#39;galactitol&#39;,
+  &#39;optimizedCodons&#39;: &#39;&#39;,
+  &#39;geneNames&#39;: &#39;&#39;,
+  &#39;originSpecies&#39;: &#39;&#39;,
+  &#39;directedEvolution&#39;: False,
+  &#39;volume&#39;: &#39;0.050&#39;,
+  &#39;knockedOutGenes&#39;: &#39;&#39;,
+  &#39;engineeredStrain&#39;: &#39;&#39;,
+  &#39;oxygenLevel&#39;: &#39;sufficient&#39;,
+  &#39;species&#39;: &#39;Rhodosporidium&#39;,
+  &#39;overexpressedGenes&#39;: &#39;&#39;,
+  &#39;time&#39;: &#39;144&#39;,
+  &#39;bioprocessNotes&#39;: &#39;&#39;},
+ {&#39;geneticNotes&#39;: &#39;&#39;,
+  &#39;heterologousGenes&#39;: &#39;&#39;,
+  &#39;integrationSites&#39;: &#39;&#39;,
+  &#39;nitrogenLevel&#39;: &#39;limited&#39;,
+  &#39;media&#39;: &#39;.75g/L yeast extract, 1.7 g/L YNB, 0.1g/L ammonium sulfate&#39;,
+  &#39;substrateConc1&#39;: &#39;60&#39;,
+  &#39;substrateConc2&#39;: &#39;&#39;,
+  &#39;vessel&#39;: &#39;shake flask&#39;,
+  &#39;yield&#39;: &#39;0.1233&#39;,
+  &#39;titer&#39;: &#39;7.4&#39;,
+  &#39;maximumRate&#39;: &#39;0.0385&#39;,
+  &#39;temperature&#39;: &#39;30&#39;,
+  &#39;pH&#39;: &#39;5.6&#39;,
+  &#39;substrate1&#39;: &#39;galactose&#39;,
+  &#39;substrate2&#39;: &#39;&#39;,
+  &#39;geneIds&#39;: &#39;&#39;,
+  &#39;parentStrain&#39;: &#39;IFO0880&#39;,
+  &#39;promoters&#39;: &#39;&#39;,
+  &#39;strain&#39;: &#39;&#39;,
+  &#39;averageRate&#39;: &#39;0.0385&#39;,
+  &#39;product&#39;: &#39;galactitol&#39;,
+  &#39;optimizedCodons&#39;: &#39;&#39;,
+  &#39;geneNames&#39;: &#39;&#39;,
+  &#39;directedEvolution&#39;: False,
+  &#39;originSpecies&#39;: &#39;&#39;,
+  &#39;volume&#39;: &#39;0.050&#39;,
+  &#39;engineeredStrain&#39;: &#39;&#39;,
+  &#39;knockedOutGenes&#39;: &#39;&#39;,
+  &#39;species&#39;: &#39;Rhodosporidium&#39;,
+  &#39;oxygenLevel&#39;: &#39;sufficient&#39;,
+  &#39;overexpressedGenes&#39;: &#39;&#39;,
+  &#39;time&#39;: &#39;192&#39;,
+  &#39;bioprocessNotes&#39;: &#39;&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="upload-the-json-data-through-the-api">
+<h2>Upload the JSON data through the API<a class="headerlink" href="#upload-the-json-data-through-the-api" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this is the url of the api endpoint</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData&#39;</span>
+
+<span class="c1"># data to be uploaded</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;species&#39;</span><span class="p">:</span> <span class="s1">&#39;rhodosporidium&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;slug&#39;</span><span class="p">:</span> <span class="s1">&#39;production-of-galactitol-from-galactose-by-the-oleaginous-yeast-rhodosporidium-toruloides-ifo0880&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;experimentalData&#39;</span><span class="p">:</span> <span class="n">experimental_data</span><span class="p">,</span> <span class="c1"># data from json file</span>
+<span class="p">}</span>
+
+<span class="c1"># replace YOUR_JWT_TOKEN with the token you get from your user info page: https://impact-database.com/userinfo</span>
+<span class="n">your_jwt_token</span> <span class="o">=</span> <span class="s2">&quot;YOUR_JWT_TOKEN&quot;</span>
+
+<span class="c1"># headers for the request</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">your_jwt_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># send the post request to the api</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error: Invalid JWT. Please include a valid JWT from https://impact-database.com/userinfo.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="upload-experimental-data-from-an-excel-file">
+<h2>2. Upload experimental data from an excel file<a class="headerlink" href="#upload-experimental-data-from-an-excel-file" title="Permalink to this heading"></a></h2>
+<p>This example data is from a paper in ImpactDB <a class="reference external" href="https://impact-database.com/paper/rhodosporidium/optimising-nutrients-in-the-culture-medium-of-rhodosporidium-toruloides-enhances-lipids-production">(Ye 2021)</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load excel data into a dataframe</span>
+<span class="n">excel_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;../data/ye_2021.xlsx&#39;</span><span class="p">)</span>
+
+<span class="c1"># replace NaN with empty strings</span>
+<span class="n">excel_df</span> <span class="o">=</span> <span class="n">excel_df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># convert dataframe to json string</span>
+<span class="n">excel_df_as_json_str</span> <span class="o">=</span> <span class="n">excel_df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+
+<span class="c1"># convert json string to json object</span>
+<span class="n">excel_df_as_json_obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">excel_df_as_json_str</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">excel_df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">excel_df_as_json_obj</span><span class="p">),</span> <span class="n">excel_df_as_json_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>strain</th>
+      <th>engineeredStrain</th>
+      <th>parentStrain</th>
+      <th>product</th>
+      <th>titer</th>
+      <th>averageRate</th>
+      <th>maximumRate</th>
+      <th>yield</th>
+      <th>volume</th>
+      <th>...</th>
+      <th>knockedOutGenes</th>
+      <th>overexpressedGenes</th>
+      <th>heterologousGenes</th>
+      <th>promoters</th>
+      <th>integrationSites</th>
+      <th>originSpecies</th>
+      <th>optimizedCodons</th>
+      <th>directedEvolution</th>
+      <th>geneticNotes</th>
+      <th>bioprocessNotes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Rhodosporidium toruloides</td>
+      <td></td>
+      <td></td>
+      <td>ABC</td>
+      <td>lipid</td>
+      <td>7.769</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>100</td>
+      <td>...</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Rhodosporidium toruloides</td>
+      <td></td>
+      <td></td>
+      <td>ABC</td>
+      <td>lipid</td>
+      <td>6.769</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>100</td>
+      <td>...</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Rhodosporidium toruloides</td>
+      <td></td>
+      <td></td>
+      <td>ABC</td>
+      <td>lipid</td>
+      <td>4.638</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>100</td>
+      <td>...</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Rhodosporidium toruloides</td>
+      <td></td>
+      <td></td>
+      <td>ABC</td>
+      <td>lipid</td>
+      <td>2.436</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>100</td>
+      <td>...</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Rhodosporidium toruloides</td>
+      <td></td>
+      <td></td>
+      <td>ABC</td>
+      <td>lipid</td>
+      <td>1.761</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>100</td>
+      <td>...</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 33 columns</p>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;list&#39;&gt; [{&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 7.769, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;sufficient&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 6.769, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;CIN = 40: 1&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 4.638, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;C/N=80:1&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 2.436, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;C/N=160:1&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 1.761, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;C/N =200:1&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 0.924, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;C/N = infinity&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 4.88, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;C/N=20.1&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 4.96, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;CIN = 40: 1&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 6.35, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;C/N=80:1&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 5.82, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;C/N=160:1&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 5.32, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;C/N =200:1&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}, {&#39;species&#39;: &#39;Rhodosporidium toruloides&#39;, &#39;strain&#39;: &#39;&#39;, &#39;engineeredStrain&#39;: &#39;&#39;, &#39;parentStrain&#39;: &#39;ABC&#39;, &#39;product&#39;: &#39;lipid&#39;, &#39;titer&#39;: 1.32, &#39;averageRate&#39;: &#39;&#39;, &#39;maximumRate&#39;: &#39;&#39;, &#39;yield&#39;: &#39;&#39;, &#39;volume&#39;: 100, &#39;vessel&#39;: &#39;shake flask&#39;, &#39;substrate1&#39;: &#39;sucrose&#39;, &#39;substrateConc1&#39;: 40, &#39;substrate2&#39;: &#39;&#39;, &#39;substrateConc2&#39;: &#39;&#39;, &#39;media&#39;: &#39;defined&#39;, &#39;time&#39;: 24, &#39;oxygenLevel&#39;: &#39;sufficient&#39;, &#39;nitrogenLevel&#39;: &#39;C/N = infinity&#39;, &#39;pH&#39;: &#39;&#39;, &#39;temperature&#39;: 28, &#39;geneIds&#39;: &#39;&#39;, &#39;geneNames&#39;: &#39;&#39;, &#39;knockedOutGenes&#39;: &#39;&#39;, &#39;overexpressedGenes&#39;: &#39;&#39;, &#39;heterologousGenes&#39;: &#39;&#39;, &#39;promoters&#39;: &#39;&#39;, &#39;integrationSites&#39;: &#39;&#39;, &#39;originSpecies&#39;: &#39;&#39;, &#39;optimizedCodons&#39;: &#39;&#39;, &#39;directedEvolution&#39;: &#39;&#39;, &#39;geneticNotes&#39;: &#39;&#39;, &#39;bioprocessNotes&#39;: &#39;&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="upload-the-excel-data-through-the-api">
+<h2>Upload the excel data through the API<a class="headerlink" href="#upload-the-excel-data-through-the-api" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this is the url of the api endpoint</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData&#39;</span>
+
+<span class="c1"># data to be uploaded</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;species&#39;</span><span class="p">:</span> <span class="s1">&#39;rhodosporidium&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;slug&#39;</span><span class="p">:</span> <span class="s1">&#39;optimising-nutrients-in-the-culture-medium-of-rhodosporidium-toruloides-enhances-lipids-production&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;experimentalData&#39;</span><span class="p">:</span> <span class="n">excel_df_as_json_obj</span><span class="p">,</span> <span class="c1"># data from excel file</span>
+<span class="p">}</span>
+
+<span class="c1"># replace YOUR_JWT_TOKEN with the token you get from your user info page: https://impact-database.com/userinfo</span>
+<span class="n">your_jwt_token</span> <span class="o">=</span> <span class="s2">&quot;YOUR_JWT_TOKEN&quot;</span>
+
+<span class="c1"># headers for the request</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">your_jwt_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># send the post request to the api</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error: Invalid JWT. Please include a valid JWT from https://impact-database.com/userinfo.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="upload-manually-defined-data">
+<h2>3. Upload manually defined data<a class="headerlink" href="#upload-manually-defined-data" title="Permalink to this heading"></a></h2>
+<p>This example data is from a paper in ImpactDB <a class="reference external" href="https://impact-database.com/paper/rhodosporidium/monoterpene-production-by-the-carotenogenic-yeast-rhodosporidium-toruloides">(Zhuang 2019)</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">manually_defined_experimental_data</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;geneticNotes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;heterologousGenes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;integrationSites&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="c1"># &quot;nitrogenLevel&quot;: &quot;&quot;,</span>
+    <span class="s2">&quot;nitrogenLevel&quot;</span><span class="p">:</span> <span class="s2">&quot;sufficient&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;media&quot;</span><span class="p">:</span> <span class="s2">&quot;rich&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;substrateConc1&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;substrateConc2&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vessel&quot;</span><span class="p">:</span> <span class="s2">&quot;batch reactor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;yield&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;titer&quot;</span><span class="p">:</span> <span class="s2">&quot;0.02764&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pH&quot;</span><span class="p">:</span> <span class="s2">&quot;7.4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;maximumRate&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="s2">&quot;30&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;substrate1&quot;</span><span class="p">:</span> <span class="s2">&quot;Waste hydrolysate&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;substrate2&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geneIds&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;promoters&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="c1"># &quot;parentStrain&quot;: &quot;&quot;,</span>
+    <span class="s2">&quot;parentStrain&quot;</span><span class="p">:</span> <span class="s2">&quot;temp name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;strain&quot;</span><span class="p">:</span> <span class="s2">&quot;Rhodosporidium toruloides&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;averageRate&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;product&quot;</span><span class="p">:</span> <span class="s2">&quot;1,8-cineole&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;optimizedCodons&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geneNames&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;directedEvolution&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;originSpecies&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;volume&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;engineeredStrain&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;knockedOutGenes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;oxygenLevel&quot;</span><span class="p">:</span> <span class="s2">&quot;sufficient&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="s2">&quot;Rhodosporidium&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;overexpressedGenes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;168&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bioprocessNotes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="upload-the-manually-written-data-through-the-api">
+<h2>Upload the manually written data through the API<a class="headerlink" href="#upload-the-manually-written-data-through-the-api" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this is the url of the api endpoint</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://us-central1-impact-db.cloudfunctions.net/uploadExperimentalData&#39;</span>
+
+<span class="c1"># data to be uploaded</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;species&#39;</span><span class="p">:</span> <span class="s1">&#39;rhodosporidium&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;slug&#39;</span><span class="p">:</span> <span class="s1">&#39;monoterpene-production-by-the-carotenogenic-yeast-rhodosporidium-toruloides&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;experimentalData&#39;</span><span class="p">:</span> <span class="n">manually_defined_experimental_data</span><span class="p">,</span> <span class="c1"># data from python object</span>
+<span class="p">}</span>
+
+<span class="c1"># replace YOUR_JWT_TOKEN with the token you get from your user info page: https://impact-database.com/userinfo</span>
+<span class="n">your_jwt_token</span> <span class="o">=</span> <span class="s2">&quot;YOUR_JWT_TOKEN&quot;</span>
+
+<span class="c1"># headers for the request</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">your_jwt_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># send the post request to the api</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error: Invalid JWT. Please include a valid JWT from https://impact-database.com/userinfo.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../description.html" class="btn btn-neutral float-left" title="ImpactDB Experimental Data Upload Demo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="readdemo.html" class="btn btn-neutral float-right" title="ImpactDB Data Read Demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Garrett Roell, Haodong Ding.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

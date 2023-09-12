@@ -12,8 +12,8 @@ Welcome to impactdb-api's documentation!
    
    home <self>
    description.md
-   demo
-   readdemo
+   notebooks/upload_demonstration
+   notebooks/readdemo
 
 Indices and tables
 ==================

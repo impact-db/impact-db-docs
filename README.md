@@ -18,8 +18,12 @@ data = {
     'experimentalData': experimental_data,
 }
 
+# replace YOUR_JWT_TOKEN with the token you get from your user info page: https://impact-database.com/userinfo
+your_jwt_token = "YOUR_JWT_TOKEN"
+
 headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {your_jwt_token}",
 }
 
 response = requests.post(url, data=json.dumps(data), headers=headers)
